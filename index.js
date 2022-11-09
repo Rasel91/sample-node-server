@@ -10,6 +10,7 @@ app.get('/', (req, res) => {
 
 
 app.use(cors());
+
 app.use(express.json());
 
 const users = [
@@ -24,10 +25,16 @@ app.get('/users', (req, res) => {
     res.send(users);
 })
 
-app.post('/user', (req, res) => {
+
+app.post('/users', (req, res) => {
     console.log('Post API Called');
-    console.log(req.body);
+    const user = req.body;
+    user.id = users.length +1;
+    users.push (user);
+    console.log(user);
+    res.send(user);
 })
+
 app.listen(port, () => {
-    console.log(`Simple not Server running on port ${port}`);
+    console.log(`Simple node Server running on port ${port}`);
 });
