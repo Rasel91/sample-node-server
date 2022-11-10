@@ -26,30 +26,28 @@ const users = [
 const uri = "mongodb+srv://simple-database:TXBOQNMVtOzNAkLE@cluster0.phsffqx.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-async function run (){
-try{
-    const userCollection = client.db('simpleNode').collection('user');
-    const user = { name:'Rohi', email:'rohi@gmail.com' }
-    // const  result = await userCollection.insertOne(user)
-    // console.log(result);
+async function run() {
+    try {
+        const userCollection = client.db('simpleNode').collection('user');
+        const user = { name: 'Rohi', email: 'rohi@gmail.com' }
+        // const  result = await userCollection.insertOne(user)
+        // console.log(result);
 
-    app.post('/users', async(req, res) => {
-        const user = req.body;
-        const result = await userCollection.insertOne(user)
-        console.log(result);
-        user.id = result.insertedId;
-        // users.push (user);
-        // console.log(user);
-        res.send(user);
-    })
-
-
-}
-finally{
-
-}
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await userCollection.insertOne(user)
+            console.log(result);
+            user.id = result.insertedId;
+            // users.push (user);
+            // console.log(user);
+            res.send(user);
+        })
 
 
+    }
+    finally {
+
+    }
 
 
 }
@@ -58,6 +56,12 @@ run().catch(console.dir)
 
 
 app.get('/users', (req, res) => {
+ if(req.query.name){
+    const search = req.query.name;
+    const filtered = users.filter(use =>users.name.toLowerCase().indexOf(search));
+    res.send(filtered);
+ }
+
     res.send(users);
 })
 
